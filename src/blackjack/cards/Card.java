@@ -1,26 +1,24 @@
 package blackjack.cards;
 
+import blackjack.api.Rank;
+
 public class Card {
 
-    private int rank;
-    private int colour;
+    private Rank rank;
 
-    public Card(int rank, int colour) {
+    public Card(Rank rank) {
         this.rank = rank;
-        this.colour = colour;
     }
 
-    public int getRank() { return rank; }
-
-    public int getColour() { return colour; }
+    public Rank getRank() { return rank; }
 
     public int getValue() {
-        if(rank > 9) return 10;
-        else if(rank == 0) {
-            /* TODO IMPLEMENT ACE LOGIC */
-            return 1;
-        }
-        else return rank + 1;
+        return rank.rankValue;
+    }
+
+    public String toString(){
+        return ("[" + rank + "] ("+this.getValue()+")");
+
     }
 
 }

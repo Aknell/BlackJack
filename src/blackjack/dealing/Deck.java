@@ -1,5 +1,6 @@
 package blackjack.dealing;
 
+import blackjack.api.Rank;
 import blackjack.cards.Card;
 
 import java.util.ArrayList;
@@ -11,10 +12,11 @@ public class Deck {
 
     public Deck() {
         deck = new ArrayList<Card>();
-        for(int i = 0; i < 13; i++) {
-            for(int j = 0; j < 2; j++) {
-                deck.add(new Card(i, j));
-            }
+        for(Rank rank : Rank.values()) {
+            deck.add(new Card(rank));
+            deck.add(new Card(rank));
+            deck.add(new Card(rank));
+            deck.add(new Card(rank));
         }
     }
 
@@ -24,6 +26,15 @@ public class Deck {
 
     public Card drawCard() {
         return deck.remove(0);
+    }
+
+    public String toString() {
+        String output = "";
+        for(Card c : deck) {
+            output += c;
+            output += "\n";
+        }
+        return output;
     }
 
 }

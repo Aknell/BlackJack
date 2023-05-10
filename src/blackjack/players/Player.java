@@ -7,17 +7,18 @@ public class Player {
 
     private Hand hand;
 
-    public Player(Hand hand) {
-        this.hand = hand;
+    public Player() {
+        this.hand = new Hand();
     }
 
     public Hand getHand() { return hand; }
+    public void setHand(Hand hand) { this.hand = hand; }
 
     public boolean hasBusted() {
         return hand.getTotalValue() > 21;
     }
 
     public boolean blackJack() {
-        return hand.getTotalValue() == 21;
+        return hand.getHand().size() == 2 && hand.getTotalValue() == 21;
     }
 }
