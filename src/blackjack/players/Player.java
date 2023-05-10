@@ -7,8 +7,8 @@ public class Player {
 
     private Hand hand;
 
-    public Player() {
-        this.hand = new Hand();
+    public Player(Hand hand) {
+        this.hand = hand;
     }
 
     public Hand getHand() { return hand; }
@@ -19,6 +19,6 @@ public class Player {
     }
 
     public boolean blackJack() {
-        return hand.getHand().size() == 2 && hand.getTotalValue() == 21;
+        return hand.getTotalValue() == 21;
     }
 }

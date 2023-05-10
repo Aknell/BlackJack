@@ -1,15 +1,22 @@
 package blackjack.players;
 
-import blackjack.dealing.Hand;
+import blackjack.dealing.DealersHand;
 
 public class Dealer extends Player {
 
-    int revealed = 1;
+    private DealersHand hand = new DealersHand();
 
-    public Dealer() {
-        super();
+    public Dealer(DealersHand hand) {
+        super(hand);
+        this.hand = hand;
     }
 
+    @Override
+    public DealersHand getHand() { return hand; }
 
+    @Override
+    public boolean blackJack() {
+        return hand.getRevealed() >= 2 && this.getHand().getTotalValue() == 21;
+    }
 
 }

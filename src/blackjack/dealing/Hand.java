@@ -8,14 +8,8 @@ public class Hand {
 
     private ArrayList<Card> hand = new ArrayList<Card>();
     private int value;
-    private boolean isDealer;
 
-    public Hand() {
-        this(false);
-    }
-    public Hand(boolean isDealer) {
-        this.isDealer = isDealer;
-    }
+    public Hand() {}
 
     public void hit(Deck deck) {
         hand.add(deck.drawCard());
