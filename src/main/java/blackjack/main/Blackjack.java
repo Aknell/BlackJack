@@ -12,16 +12,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 
 public class Blackjack extends Frame implements ActionListener {
 
     boolean won = false;
     boolean lost = false;
     boolean draw = false;
+
     static Dealer dealer;
     static Player player;
     static Deck deck;
     JButton hit, stand;
+
+    static BufferedImage bg;
 
     public Blackjack() {
         hit = new JButton("Hit");
@@ -64,12 +68,26 @@ public class Blackjack extends Frame implements ActionListener {
         super.paint(g);
     }
 
+    public void won() {
+        /* TODO Winning Logic */
+        repaint();
+    }
+    public void lost() {
+        /* TODO Losing Logic */
+        repaint();
+    }
+    public void draw() {
+        /* TODO Drawing Logic */
+        repaint();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
 
         if(s.equals("Hit") && player.getHand().getTotalValue() < 21) {
             player.getHand().hit(deck);
+            if(player.hasBusted()) lost = true;
         }
         if(s.equals("Stand") || player.blackJack()) {
             hit.setEnabled(false);
@@ -82,5 +100,8 @@ public class Blackjack extends Frame implements ActionListener {
             else if(dealer.getHand().getTotalValue() == player.getHand().getTotalValue()) draw = true;
             else lost = true;
         }
+        if(won) won();
+        else if(lost) lost();
+        else if(draw) draw();
     }
 }

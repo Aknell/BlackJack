@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Hand {
 
     private ArrayList<Card> hand = new ArrayList<Card>();
-    private int value;
 
     public Hand() {}
 
