@@ -4,7 +4,7 @@ import blackjack.dealing.DealersHand;
 
 public class Dealer extends Player {
 
-    private DealersHand hand = new DealersHand();
+    private DealersHand hand;
 
     public Dealer(DealersHand hand) {
         super(hand);

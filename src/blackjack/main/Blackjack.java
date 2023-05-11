@@ -28,13 +28,12 @@ public class Blackjack extends Frame implements ActionListener {
         hit.addActionListener(this);
         stand = new JButton("Stand");
 
-        addWindowListener(new WindowAdapter() {
+        addWindowListener((new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 dispose();
             }
-        });
-
+        }));
         add(hit);
         add(stand);
     }
