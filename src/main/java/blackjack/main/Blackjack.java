@@ -31,6 +31,7 @@ public class Blackjack extends Frame implements ActionListener {
         hit = new JButton("Hit");
         hit.addActionListener(this);
         stand = new JButton("Stand");
+        stand.addActionListener(this);
 
         addWindowListener((new WindowAdapter() {
             @Override
@@ -53,7 +54,6 @@ public class Blackjack extends Frame implements ActionListener {
 
         deck = new Deck();
         deck.shuffle();
-        System.out.println(deck);
         dealer = new Dealer(new DealersHand());
         player = new Player(new Hand());
 
@@ -69,15 +69,21 @@ public class Blackjack extends Frame implements ActionListener {
     }
 
     public void won() {
-        /* TODO Winning Logic */
+        hit.setEnabled(false);
+        stand.setEnabled(false);
+        System.out.println("You win!");
         repaint();
     }
     public void lost() {
-        /* TODO Losing Logic */
+        hit.setEnabled(false);
+        stand.setEnabled(false);
+        System.out.println("You lost!");
         repaint();
     }
     public void draw() {
-        /* TODO Drawing Logic */
+        hit.setEnabled(false);
+        stand.setEnabled(false);
+        System.out.println("Draw!");
         repaint();
     }
 
@@ -92,14 +98,19 @@ public class Blackjack extends Frame implements ActionListener {
         if(s.equals("Stand") || player.blackJack()) {
             hit.setEnabled(false);
             stand.setEnabled(false);
+
+            dealer.getHand().reveal();
+
             while(dealer.getHand().getTotalValue() < 17) {
                 dealer.getHand().hit(deck);
+                dealer.getHand().reveal();
             }
 
             if(dealer.getHand().getTotalValue() < player.getHand().getTotalValue()) won = true;
             else if(dealer.getHand().getTotalValue() == player.getHand().getTotalValue()) draw = true;
             else lost = true;
         }
+
         if(won) won();
         else if(lost) lost();
         else if(draw) draw();

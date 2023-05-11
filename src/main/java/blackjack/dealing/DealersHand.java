@@ -14,11 +14,16 @@ public class DealersHand extends Hand {
     public void reveal() { revealed++; }
     public int getRevealed() { return revealed; }
 
-    @Override
-    public ArrayList<Card> getHand() {
+    public String toString() {
+        publicHand.clear();
         for(int i = 0; i < revealed; i++) {
-            publicHand.add(this.getHand().get(i));
+            publicHand.add(super.getHand().get(i));
         }
-        return publicHand;
+        String output = "";
+        for(Card c : publicHand) {
+            output += c;
+            output += "\n";
+        }
+        return output;
     }
 }
