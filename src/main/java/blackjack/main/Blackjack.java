@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
 
 public class Blackjack extends Frame implements ActionListener {
@@ -61,16 +62,7 @@ public class Blackjack extends Frame implements ActionListener {
         playAgain.setEnabled(false);
     }
 
-    public static void main(String[] args) {
-        // Init window
-        Blackjack blackjack = new Blackjack();
-        blackjack.setTitle("Blackjack");
-        blackjack.setSize(1280, 720);
-        blackjack.setLocationRelativeTo(null);
-        blackjack.setLayout(new FlowLayout());
-        blackjack.setResizable(false);
-        blackjack.setVisible(true);
-
+    public static void initGame() {
         // Creates and shuffles deck
         deck = new Deck();
         deck.shuffle();
@@ -86,21 +78,63 @@ public class Blackjack extends Frame implements ActionListener {
         }
     }
 
+    public static void main(String[] args) {
+        // Init window
+        Blackjack blackjack = new Blackjack();
+        blackjack.setTitle("Blackjack");
+        blackjack.setSize(1280, 720);
+        blackjack.setLocationRelativeTo(null);
+        blackjack.setLayout(new FlowLayout());
+        blackjack.setResizable(false);
+        blackjack.setVisible(true);
+
+        blackjack.setBackground(new Color(0, 125, 15));
+
+        initGame();
+    }
+
+    // Draws splash text for win/loss/draw
+    public void drawSplashText(String text, Graphics2D g2d) {
+        g2d.setFont(new Font("Arial", Font.BOLD, 50));
+        g2d.setColor(Color.WHITE);
+        // Calculate position
+        int width = (int) g2d.getFontMetrics().getStringBounds(text, g2d).getWidth();
+        int height = (int) g2d.getFontMetrics().getStringBounds(text, g2d).getHeight();
+        int x = (1280/2) - (width/2);
+        int y = (720/2) + (height/2);
+        g2d.drawString(text, x, y);
+    }
+
     @Override
     public void paint(Graphics g) {
-        /* TODO Paint Logic */
+        // Changes to Graphics2D class to enable anti-aliasing
+        Graphics2D g2d = (Graphics2D) g;
+        RenderingHints antiAliasing = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.addRenderingHints(antiAliasing);
+
         // Set size of Cards
-        g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 150));
+        g2d.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 150));
 
         // Draws the player's hand
         if(!player.getHand().getHand().isEmpty()) {
-            int playerX = (int) ((1280/2) - ((player.getHand().getHand().size() / 2.0) * 100));
+            int playerX = (int) ((1280/2) - ((player.getHand().getHand().size() / 2.0) * 100)); // Starting point for drawing cards so that they're centered
             int playerY = 650;
             for(Card c : player.getHand().getHand()) {
-                if(c.getSuit() == Suit.DIAMONDS || c.getSuit() == Suit.HEARTS) g.setColor(Color.RED);
-                else g.setColor(Color.BLACK);
-                g.drawString(c.getImg(), playerX, playerY);
+                // Getting width and height of card to draw white rect
+                int w = g2d.getFontMetrics().stringWidth(c.getImg());
+                LineMetrics ln = g2d.getFont().getLineMetrics(c.getImg(), g2d.getFontRenderContext());
+                int h = (int) ln.getHeight();
+
+                // Drawing white rect
+                g2d.setColor(Color.WHITE);
+                g2d.fillRect(playerX, (int) ((playerY / 2) + ln.getAscent() + 50), w, h - 50);
+
+                if(c.getSuit() == Suit.DIAMONDS || c.getSuit() == Suit.HEARTS) g2d.setColor(Color.RED); // Makes Diamonds and Hearts red
+                else g2d.setColor(Color.BLACK); // Makes Spades, Clubs, and Backs black
+
+                g2d.drawString(c.getImg(), playerX, playerY);
                 playerX += 100;
+
                 sleep();
             }
         }
@@ -108,21 +142,40 @@ public class Blackjack extends Frame implements ActionListener {
         // Draws the dealer's hand
         if(!dealer.getHand().getHand().isEmpty()) {
             int dealerX = (int) ((1280/2) - ((dealer.getHand().getHand().size() / 2.0) * 100));
-            int dealerY = 250;
+            int dealerY = 200;
             for(int i = 0; i < dealer.getHand().getHand().size(); i++) {
                 Card c = dealer.getHand().getHand().get(i);
-                if(c.getSuit() == Suit.DIAMONDS || c.getSuit() == Suit.HEARTS) g.setColor(Color.RED);
-                else g.setColor(Color.BLACK);
-                if(i < dealer.getHand().getRevealed()) g.drawString(c.getImg(), dealerX, dealerY);
-                else g.drawString(c.getBackImg(), dealerX, dealerY);
+                // Getting width and height of card to draw white rect
+                int w = g2d.getFontMetrics().stringWidth(c.getImg());
+                LineMetrics ln = g2d.getFont().getLineMetrics(c.getImg(), g2d.getFontRenderContext());
+                int h = (int) ln.getHeight();
+
+                // Drawing white rect
+                g2d.setColor(Color.WHITE);
+                g2d.fillRect(dealerX, (int) ((dealerY / 2) - ln.getDescent() + 21), w, h - 50);
+
+                if(c.getSuit() == Suit.DIAMONDS || c.getSuit() == Suit.HEARTS) g2d.setColor(Color.RED);
+                else g2d.setColor(Color.BLACK);
+
+                if(i < dealer.getHand().getRevealed()) g2d.drawString(c.getImg(), dealerX, dealerY); // Draws card if it is revealed
+                else g2d.drawString(c.getBackImg(), dealerX, dealerY); // If not, draws back of card
+
                 dealerX += 100;
+
                 sleep();
             }
         }
+
+        // Sets text for win/loss/draw
+        if(won) drawSplashText("You won!", g2d);
+        if(lost) drawSplashText("You lost!", g2d);
+        if(draw) drawSplashText("Draw!", g2d);
+
         super.paint(g);
     }
 
     public void won() {
+        // Disables buttons and enables Play Again
         hit.setEnabled(false);
         stand.setEnabled(false);
         playAgain.setEnabled(true);
@@ -130,6 +183,7 @@ public class Blackjack extends Frame implements ActionListener {
         repaint();
     }
     public void lost() {
+        // Disables buttons and enables Play Again
         hit.setEnabled(false);
         stand.setEnabled(false);
         playAgain.setEnabled(true);
@@ -138,10 +192,26 @@ public class Blackjack extends Frame implements ActionListener {
         repaint();
     }
     public void draw() {
+        // Disables buttons and enables Play Again
         hit.setEnabled(false);
         stand.setEnabled(false);
         playAgain.setEnabled(true);
         System.out.println("Draw!");
+        repaint();
+    }
+
+    public void playAgain() {
+        // Enables buttons and disables Play Again
+        hit.setEnabled(true);
+        stand.setEnabled(true);
+        playAgain.setEnabled(false);
+
+        // Sets won, lost, and draw to false
+        won = false;
+        lost = false;
+        draw = false;
+
+        initGame();
         repaint();
     }
 
@@ -170,6 +240,7 @@ public class Blackjack extends Frame implements ActionListener {
             else if(dealer.getHand().getTotalValue() == player.getHand().getTotalValue()) draw = true;
             else lost = true;
         }
+        if(s.equals("Play Again")) playAgain();
 
         if(won) won();
         else if(lost) lost();
