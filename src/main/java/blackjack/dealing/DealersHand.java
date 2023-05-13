@@ -1,7 +1,6 @@
 package blackjack.dealing;
 
 import blackjack.cards.Card;
-
 import java.util.ArrayList;
 
 public class DealersHand extends Hand {
@@ -13,6 +12,15 @@ public class DealersHand extends Hand {
 
     public void reveal() { revealed++; }
     public int getRevealed() { return revealed; }
+    public void setRevealed(int revealed) { this.revealed = revealed; }
+
+    public ArrayList<Card> getPublicHand() {
+        publicHand.clear();
+        for(int i = 0; i < revealed; i++) {
+            publicHand.add(super.getHand().get(i));
+        }
+        return publicHand;
+    }
 
     public String toString() {
         publicHand.clear();

@@ -19,10 +19,12 @@ public class Card {
     }
 
     public Rank getRank() { return rank; }
+    public Suit getSuit() { return suit; }
     public int getValue() {
         return rank.rankValue;
     }
     public String getImg() { return img; }
+    public String getBackImg() { return backImg; }
 
     public String toString(){
         return ("[" + rank + " of " + suit + "] ("+this.getValue()+") " + img);
