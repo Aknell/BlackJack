@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70436a3f-5edc-4157-8570-1b8f7753ca79" name="Changes" comment="a">
+      <change afterPath="$PROJECT_DIR$/src/main/java/blackjack/api/Suit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/api/Rank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/api/Rank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/cards/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/cards/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/dealing/DealersHand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/dealing/DealersHand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/dealing/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/dealing/Hand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/dealing/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/dealing/Deck.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/main/Blackjack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/main/Blackjack.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +21,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -88,7 +90,21 @@
       <option name="project" value="LOCAL" />
       <updated>1683818916917</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="aaaaa">
+      <created>1683830927549</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683830927549</updated>
+    </task>
+    <task id="LOCAL-00004" summary="a">
+      <created>1683831034632</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1683831034632</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -103,6 +119,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="aaaaa" />
     <MESSAGE value="a" />
     <option name="LAST_COMMIT_MESSAGE" value="a" />
   </component>

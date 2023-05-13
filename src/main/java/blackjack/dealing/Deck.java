@@ -1,6 +1,7 @@
 package blackjack.dealing;
 
 import blackjack.api.Rank;
+import blackjack.api.Suit;
 import blackjack.cards.Card;
 
 import java.util.ArrayList;
@@ -12,11 +13,12 @@ public class Deck {
 
     public Deck() {
         deck = new ArrayList<Card>();
-        for(Rank rank : Rank.values()) {
-            deck.add(new Card(rank));
-            deck.add(new Card(rank));
-            deck.add(new Card(rank));
-            deck.add(new Card(rank));
+        for(Suit suit : Suit.values()) {
+            int image = suit.ace;
+            for (Rank rank : Rank.values()) {
+                deck.add(new Card(rank, suit, Character.toString(image)));
+                image++;
+            }
         }
     }
 

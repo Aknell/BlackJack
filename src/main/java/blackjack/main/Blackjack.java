@@ -57,6 +57,8 @@ public class Blackjack extends Frame implements ActionListener {
         dealer = new Dealer(new DealersHand());
         player = new Player(new Hand());
 
+        System.out.println(deck);
+
         for(int i = 0; i < 2; i++) {
             dealer.getHand().hit(deck);
             player.getHand().hit(deck);

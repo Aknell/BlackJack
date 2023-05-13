@@ -12,6 +12,7 @@ public enum Rank {
     NINE("Nine",9),
     TEN("Ten",10),
     JACK("Jack",10),
+    KNIGHT("Knight",10),
     QUEEN("Queen",10),
     KING("King",10);
 
