@@ -13,6 +13,8 @@ public class Deck {
 
     public Deck() {
         deck = new ArrayList<Card>();
+
+        // Fills deck with every card which has a suit and rank
         for(Suit suit : Suit.values()) {
             int image = suit.ace;
             for (Rank rank : Rank.values()) {
@@ -22,6 +24,7 @@ public class Deck {
         }
     }
 
+    // Shuffles deck
     public void shuffle() {
         Collections.shuffle(deck);
     }

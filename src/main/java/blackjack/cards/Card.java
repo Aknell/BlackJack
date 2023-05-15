@@ -7,6 +7,8 @@ public class Card {
 
     private Rank rank;
     private Suit suit;
+
+    // Use Unicode characters to make cards
     private String img;
     private final String backImg = "\uD83C\uDCA0";
 
@@ -16,7 +18,6 @@ public class Card {
         this.img = img;
     }
 
-    public Rank getRank() { return rank; }
     public Suit getSuit() { return suit; }
     public int getValue() {
         return rank.rankValue;

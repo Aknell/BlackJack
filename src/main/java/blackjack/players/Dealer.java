@@ -14,6 +14,7 @@ public class Dealer extends Player {
     @Override
     public DealersHand getHand() { return hand; }
 
+    // Only claims blackjack when there are 2 or more cards visible
     @Override
     public boolean blackJack() {
         return hand.getRevealed() >= 2 && this.getHand().getTotalValue() == 21;

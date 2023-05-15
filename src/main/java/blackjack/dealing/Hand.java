@@ -11,6 +11,7 @@ public class Hand {
     public Hand() {}
     public Hand(ArrayList<Card> hand) { this.hand = hand; }
 
+    // Takes 1 card from the deck and puts it in the hand
     public void hit(Deck deck) {
         hand.add(deck.drawCard());
     }

@@ -16,6 +16,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Blackjack extends Frame implements ActionListener {
 
@@ -28,14 +30,13 @@ public class Blackjack extends Frame implements ActionListener {
     static Dealer dealer;
     static Player player;
     static Deck deck;
-    JButton hit, stand, playAgain;
-    Button start;
+    JButton start, hit, stand, restart;
 
     static BufferedImage bg;
 
     void sleep() {
         try {
-            Thread.sleep(17);
+            Thread.sleep(60);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,14 +45,20 @@ public class Blackjack extends Frame implements ActionListener {
     public Blackjack() {
         // Add Hit and Stand buttons
         hit = new JButton("Hit");
+        hit.setBounds(0, 33, 426, 33);
         hit.addActionListener(this);
+
         stand = new JButton("Stand");
+        stand.setBounds(426, 33, 427, 33);
         stand.addActionListener(this);
-        playAgain = new JButton("Play Again");
-        playAgain.addActionListener(this);
-        start = new Button("Play");
+
+        restart = new JButton("Restart");
+        restart.setBounds(853, 33, 427, 33);
+        restart.addActionListener(this);
+
+        start = new JButton("Play");
+        start.setBounds(540, 450, 200, 50);
         start.addActionListener(this);
-        start.setBounds(540, 200, 200, 50);
 
         // Closing functionality
         addWindowListener((new WindowAdapter() {
@@ -64,15 +71,15 @@ public class Blackjack extends Frame implements ActionListener {
         add(start);
         add(hit);
         add(stand);
-        add(playAgain);
+        add(restart);
 
-        playAgain.setEnabled(false);
+        restart.setEnabled(false);
         hit.setVisible(false);
         stand.setVisible(false);
-        playAgain.setVisible(false);
+        restart.setVisible(false);
     }
 
-    public static void initGame() {
+    public void initGame() {
         // Creates and shuffles deck
         deck = new Deck();
         deck.shuffle();
@@ -86,37 +93,44 @@ public class Blackjack extends Frame implements ActionListener {
             dealer.getHand().hit(deck);
             player.getHand().hit(deck);
         }
+
+        hit.setVisible(true);
+        stand.setVisible(true);
+        restart.setVisible(true);
+        start.setVisible(false);
     }
 
     public static void main(String[] args) {
-        // Init window
+        // Initializes window
         Blackjack blackjack = new Blackjack();
         blackjack.setTitle("Blackjack");
         blackjack.setSize(1280, 720);
         blackjack.setLocationRelativeTo(null);
-        blackjack.setLayout(new FlowLayout());
+        blackjack.setLayout(null);
         blackjack.setResizable(false);
         blackjack.setVisible(true);
 
+        // Makes background green
         blackjack.setBackground(new Color(0, 125, 15));
-
-        initGame();
     }
 
     // Draws splash text for win/loss/draw
     public void drawSplashText(String text, Graphics2D g2d) {
         g2d.setFont(new Font("Arial", Font.BOLD, 50));
         g2d.setColor(Color.WHITE);
+
         // Calculate position
         int width = (int) g2d.getFontMetrics().getStringBounds(text, g2d).getWidth();
         int height = (int) g2d.getFontMetrics().getStringBounds(text, g2d).getHeight();
         int x = (1280/2) - (width/2);
         int y = (720/2) + (height/2);
+        
         g2d.drawString(text, x, y);
     }
 
     @Override
     public void paint(Graphics g) {
+        super.paint(g);
         // Changes to Graphics2D class to enable anti-aliasing
         Graphics2D g2d = (Graphics2D) g;
         RenderingHints antiAliasing = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -146,8 +160,6 @@ public class Blackjack extends Frame implements ActionListener {
 
                     g2d.drawString(c.getImg(), playerX, playerY);
                     playerX += 100;
-
-                    sleep();
                 }
                 // Draw total value of hand
                 g2d.setColor(Color.WHITE);
@@ -183,8 +195,6 @@ public class Blackjack extends Frame implements ActionListener {
                     else g2d.drawString(c.getBackImg(), dealerX, dealerY); // If not, draws back of card
 
                     dealerX += 100;
-
-                    sleep();
                 }
                 // Draw total value of visible hand
                 g2d.setColor(Color.WHITE);
@@ -210,7 +220,7 @@ public class Blackjack extends Frame implements ActionListener {
         // Disables buttons and enables Play Again
         hit.setEnabled(false);
         stand.setEnabled(false);
-        playAgain.setEnabled(true);
+        restart.setEnabled(true);
         System.out.println("You win!");
         repaint();
     }
@@ -218,7 +228,7 @@ public class Blackjack extends Frame implements ActionListener {
         // Disables buttons and enables Play Again
         hit.setEnabled(false);
         stand.setEnabled(false);
-        playAgain.setEnabled(true);
+        restart.setEnabled(true);
         dealer.getHand().setRevealed(dealer.getHand().getHand().size());
         System.out.println("You lost!");
         repaint();
@@ -227,7 +237,7 @@ public class Blackjack extends Frame implements ActionListener {
         // Disables buttons and enables Play Again
         hit.setEnabled(false);
         stand.setEnabled(false);
-        playAgain.setEnabled(true);
+        restart.setEnabled(true);
         System.out.println("Draw!");
         repaint();
     }
@@ -236,7 +246,7 @@ public class Blackjack extends Frame implements ActionListener {
         // Enables buttons and disables Play Again
         hit.setEnabled(true);
         stand.setEnabled(true);
-        playAgain.setEnabled(false);
+        restart.setEnabled(false);
 
         // Sets won, lost, and draw to false
         won = false;
@@ -251,6 +261,12 @@ public class Blackjack extends Frame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
 
+        if(s.equals("Play")) {
+            wantToPlay = true;
+            initGame();
+            repaint();
+        }
+
         if(s.equals("Hit") && player.getHand().getTotalValue() < 21) {
             player.getHand().hit(deck);
             if(player.hasBusted()) lost = true;
@@ -261,6 +277,7 @@ public class Blackjack extends Frame implements ActionListener {
             stand.setEnabled(false);
 
             dealer.getHand().reveal();
+            repaint();
 
             while(dealer.getHand().getTotalValue() < 17) {
                 dealer.getHand().hit(deck);
@@ -272,7 +289,7 @@ public class Blackjack extends Frame implements ActionListener {
             else if(dealer.getHand().getTotalValue() == player.getHand().getTotalValue()) draw = true;
             else lost = true;
         }
-        if(s.equals("Play Again")) playAgain();
+        if(s.equals("Restart")) playAgain();
 
         if(won) won();
         else if(lost) lost();
