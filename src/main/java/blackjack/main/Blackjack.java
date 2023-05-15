@@ -23,10 +23,13 @@ public class Blackjack extends Frame implements ActionListener {
     boolean lost = false;
     boolean draw = false;
 
+    boolean wantToPlay = false;
+
     static Dealer dealer;
     static Player player;
     static Deck deck;
     JButton hit, stand, playAgain;
+    Button start;
 
     static BufferedImage bg;
 
@@ -46,6 +49,9 @@ public class Blackjack extends Frame implements ActionListener {
         stand.addActionListener(this);
         playAgain = new JButton("Play Again");
         playAgain.addActionListener(this);
+        start = new Button("Play");
+        start.addActionListener(this);
+        start.setBounds(540, 200, 200, 50);
 
         // Closing functionality
         addWindowListener((new WindowAdapter() {
@@ -55,11 +61,15 @@ public class Blackjack extends Frame implements ActionListener {
             }
         }));
 
+        add(start);
         add(hit);
         add(stand);
         add(playAgain);
 
         playAgain.setEnabled(false);
+        hit.setVisible(false);
+        stand.setVisible(false);
+        playAgain.setVisible(false);
     }
 
     public static void initGame() {
@@ -112,64 +122,86 @@ public class Blackjack extends Frame implements ActionListener {
         RenderingHints antiAliasing = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.addRenderingHints(antiAliasing);
 
-        // Set size of Cards
-        g2d.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 150));
+        if(wantToPlay) {
+            // Draws the player's hand
+            if (!player.getHand().getHand().isEmpty()) {
+                // Set size of Cards
+                g2d.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 150));
+                // Find position of cards
+                int playerX = (int) ((1280 / 2) - ((player.getHand().getHand().size() / 2.0) * 100)); // Starting point for drawing cards so that they're centered
+                int playerY = 550;
+                for (Card c : player.getHand().getHand()) {
+                    // Getting width and height of card to draw white rect
+                    int w = g2d.getFontMetrics().stringWidth(c.getImg());
+                    LineMetrics ln = g2d.getFont().getLineMetrics(c.getImg(), g2d.getFontRenderContext());
+                    int h = (int) ln.getHeight();
 
-        // Draws the player's hand
-        if(!player.getHand().getHand().isEmpty()) {
-            int playerX = (int) ((1280/2) - ((player.getHand().getHand().size() / 2.0) * 100)); // Starting point for drawing cards so that they're centered
-            int playerY = 650;
-            for(Card c : player.getHand().getHand()) {
-                // Getting width and height of card to draw white rect
-                int w = g2d.getFontMetrics().stringWidth(c.getImg());
-                LineMetrics ln = g2d.getFont().getLineMetrics(c.getImg(), g2d.getFontRenderContext());
-                int h = (int) ln.getHeight();
+                    // Drawing white rect
+                    g2d.setColor(Color.WHITE);
+                    g2d.fillRect(playerX, (int) ((playerY / 2) + ln.getAscent()), w, h - 50);
 
-                // Drawing white rect
+                    if (c.getSuit() == Suit.DIAMONDS || c.getSuit() == Suit.HEARTS)
+                        g2d.setColor(Color.RED); // Makes Diamonds and Hearts red
+                    else g2d.setColor(Color.BLACK); // Makes Spades, Clubs, and Backs black
+
+                    g2d.drawString(c.getImg(), playerX, playerY);
+                    playerX += 100;
+
+                    sleep();
+                }
+                // Draw total value of hand
                 g2d.setColor(Color.WHITE);
-                g2d.fillRect(playerX, (int) ((playerY / 2) + ln.getAscent() + 50), w, h - 50);
-
-                if(c.getSuit() == Suit.DIAMONDS || c.getSuit() == Suit.HEARTS) g2d.setColor(Color.RED); // Makes Diamonds and Hearts red
-                else g2d.setColor(Color.BLACK); // Makes Spades, Clubs, and Backs black
-
-                g2d.drawString(c.getImg(), playerX, playerY);
-                playerX += 100;
-
-                sleep();
+                g2d.setFont(new Font("Arial", Font.BOLD, 50));
+                String draw = "Player hand value: " + player.getHand().getTotalValue();
+                int stringX = (1280 / 2) - (g2d.getFontMetrics().stringWidth(draw) / 2);
+                g.drawString("Player hand value: " + player.getHand().getTotalValue(), stringX, 650);
             }
-        }
 
-        // Draws the dealer's hand
-        if(!dealer.getHand().getHand().isEmpty()) {
-            int dealerX = (int) ((1280/2) - ((dealer.getHand().getHand().size() / 2.0) * 100));
-            int dealerY = 200;
-            for(int i = 0; i < dealer.getHand().getHand().size(); i++) {
-                Card c = dealer.getHand().getHand().get(i);
-                // Getting width and height of card to draw white rect
-                int w = g2d.getFontMetrics().stringWidth(c.getImg());
-                LineMetrics ln = g2d.getFont().getLineMetrics(c.getImg(), g2d.getFontRenderContext());
-                int h = (int) ln.getHeight();
+            // Draws the dealer's hand
+            if (!dealer.getHand().getHand().isEmpty()) {
+                // Set size of Cards
+                g2d.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 150));
+                // Find position of cards
+                int dealerX = (int) ((1280 / 2) - ((dealer.getHand().getHand().size() / 2.0) * 100));
+                int dealerY = 300;
+                for (int i = 0; i < dealer.getHand().getHand().size(); i++) {
+                    Card c = dealer.getHand().getHand().get(i);
+                    // Getting width and height of card to draw white rect
+                    int w = g2d.getFontMetrics().stringWidth(c.getImg());
+                    LineMetrics ln = g2d.getFont().getLineMetrics(c.getImg(), g2d.getFontRenderContext());
+                    int h = (int) ln.getHeight();
 
-                // Drawing white rect
+                    // Drawing white rect
+                    g2d.setColor(Color.WHITE);
+                    g2d.fillRect(dealerX, (int) ((dealerY / 2) - ln.getDescent() + 71), w, h - 50);
+
+                    if (c.getSuit() == Suit.DIAMONDS || c.getSuit() == Suit.HEARTS) g2d.setColor(Color.RED);
+                    else g2d.setColor(Color.BLACK);
+
+                    if (i < dealer.getHand().getRevealed())
+                        g2d.drawString(c.getImg(), dealerX, dealerY); // Draws card if it is revealed
+                    else g2d.drawString(c.getBackImg(), dealerX, dealerY); // If not, draws back of card
+
+                    dealerX += 100;
+
+                    sleep();
+                }
+                // Draw total value of visible hand
                 g2d.setColor(Color.WHITE);
-                g2d.fillRect(dealerX, (int) ((dealerY / 2) - ln.getDescent() + 21), w, h - 50);
-
-                if(c.getSuit() == Suit.DIAMONDS || c.getSuit() == Suit.HEARTS) g2d.setColor(Color.RED);
-                else g2d.setColor(Color.BLACK);
-
-                if(i < dealer.getHand().getRevealed()) g2d.drawString(c.getImg(), dealerX, dealerY); // Draws card if it is revealed
-                else g2d.drawString(c.getBackImg(), dealerX, dealerY); // If not, draws back of card
-
-                dealerX += 100;
-
-                sleep();
+                g2d.setFont(new Font("Arial", Font.BOLD, 50));
+                String draw = "Dealer hand value: " + dealer.getHand().getPublicHand().getTotalValue();
+                int stringX = (1280 / 2) - (g2d.getFontMetrics().stringWidth(draw) / 2);
+                g.drawString(draw, stringX, 133);
             }
-        }
 
-        // Sets text for win/loss/draw
-        if(won) drawSplashText("You won!", g2d);
-        if(lost) drawSplashText("You lost!", g2d);
-        if(draw) drawSplashText("Draw!", g2d);
+            // Sets text for win/loss/draw
+            if (won) drawSplashText("You won!", g2d);
+            if (lost) drawSplashText("You lost!", g2d);
+            if (draw) drawSplashText("Draw!", g2d);
+        }
+        else {
+            drawSplashText("Welcome to Blackjack!", g2d);
+        }
 
         super.paint(g);
     }

@@ -9,6 +9,7 @@ public class Hand {
     private ArrayList<Card> hand = new ArrayList<Card>();
 
     public Hand() {}
+    public Hand(ArrayList<Card> hand) { this.hand = hand; }
 
     public void hit(Deck deck) {
         hand.add(deck.drawCard());

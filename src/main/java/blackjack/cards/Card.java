@@ -3,8 +3,6 @@ package blackjack.cards;
 import blackjack.api.Rank;
 import blackjack.api.Suit;
 
-import java.awt.image.BufferedImage;
-
 public class Card {
 
     private Rank rank;
