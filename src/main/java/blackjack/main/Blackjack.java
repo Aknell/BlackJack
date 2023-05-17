@@ -38,16 +38,8 @@ public class Blackjack extends Frame implements ActionListener {
 
     static BufferedImage bg;
 
-    void sleep() {
-        try {
-            Thread.sleep(60);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public Blackjack() {
-        // Add Hit and Stand buttons
+        // Add Hit, Stand, Play again, Start buttons
         hit = new JButton("Hit");
         hit.setBounds(0, 33, 426, 33);
         hit.addActionListener(this);
@@ -98,6 +90,7 @@ public class Blackjack extends Frame implements ActionListener {
             player.getHand().hit(deck);
         }
 
+        // Reveals hit, stand, play again buttons. Hides start button
         hit.setVisible(true);
         stand.setVisible(true);
         restart.setVisible(true);
@@ -114,6 +107,7 @@ public class Blackjack extends Frame implements ActionListener {
         blackjack.setResizable(false);
         blackjack.setVisible(true);
 
+        // Adds background image to program
         try {
              bg = ImageIO.read(new File("src/main/resources/images/gui/background.png"));
         } catch (IOException e) {
@@ -146,6 +140,7 @@ public class Blackjack extends Frame implements ActionListener {
         RenderingHints antiAliasing = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.addRenderingHints(antiAliasing);
 
+        // Draws background
         g2d.drawImage(bg, 0, 0, null);
 
         if(wantToPlay) {
@@ -235,7 +230,6 @@ public class Blackjack extends Frame implements ActionListener {
         hit.setEnabled(false);
         stand.setEnabled(false);
         restart.setEnabled(true);
-        System.out.println("You win!");
         repaint();
     }
     public void lost() {
@@ -244,7 +238,6 @@ public class Blackjack extends Frame implements ActionListener {
         stand.setEnabled(false);
         restart.setEnabled(true);
         dealer.getHand().setRevealed(dealer.getHand().getHand().size());
-        System.out.println("You lost!");
         repaint();
     }
     public void draw() {
@@ -252,7 +245,6 @@ public class Blackjack extends Frame implements ActionListener {
         hit.setEnabled(false);
         stand.setEnabled(false);
         restart.setEnabled(true);
-        System.out.println("Draw!");
         repaint();
     }
 

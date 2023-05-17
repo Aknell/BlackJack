@@ -10,6 +10,8 @@ public class Card {
 
     // Use Unicode characters to make cards
     private String img;
+
+    // Sets default image of the back of the card
     private final String backImg = "\uD83C\uDCA0";
 
     public Card(Rank rank, Suit suit, String img) {

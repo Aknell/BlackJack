@@ -37,14 +37,4 @@ public class Hand {
 
         return value;
     }
-
-    public String toString() {
-        String output = "";
-        for(Card c : hand) {
-            output += c;
-            output += "\n";
-        }
-        return output;
-    }
-
 }

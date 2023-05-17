@@ -16,8 +16,10 @@ public class Deck {
 
         // Fills deck with every card which has a suit and rank
         for(Suit suit : Suit.values()) {
+            // Start unicode character location from ace symbol
             int image = suit.ace;
             for (Rank rank : Rank.values()) {
+                // Adds card with image, then increments unicode character location
                 deck.add(new Card(rank, suit, Character.toString(image)));
                 image++;
             }
@@ -29,17 +31,8 @@ public class Deck {
         Collections.shuffle(deck);
     }
 
+    // Removes one card from deck and returns the card removed
     public Card drawCard() {
         return deck.remove(0);
     }
-
-    public String toString() {
-        String output = "";
-        for(Card c : deck) {
-            output += c;
-            output += "\n";
-        }
-        return output;
-    }
-
 }

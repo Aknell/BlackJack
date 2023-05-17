@@ -14,24 +14,12 @@ public class DealersHand extends Hand {
     public int getRevealed() { return revealed; }
     public void setRevealed(int revealed) { this.revealed = revealed; }
 
+    // Returns visible hand
     public Hand getPublicHand() {
         publicHand.clear();
         for(int i = 0; i < revealed; i++) {
             publicHand.add(super.getHand().get(i));
         }
         return new Hand(publicHand);
-    }
-
-    public String toString() {
-        publicHand.clear();
-        for(int i = 0; i < revealed; i++) {
-            publicHand.add(super.getHand().get(i));
-        }
-        String output = "";
-        for(Card c : publicHand) {
-            output += c;
-            output += "\n";
-        }
-        return output;
     }
 }
