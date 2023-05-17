@@ -8,6 +8,7 @@ import blackjack.dealing.Hand;
 import blackjack.players.Dealer;
 import blackjack.players.Player;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,6 +17,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -110,6 +114,12 @@ public class Blackjack extends Frame implements ActionListener {
         blackjack.setResizable(false);
         blackjack.setVisible(true);
 
+        try {
+             bg = ImageIO.read(new File("src/main/resources/images/gui/background.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // Makes background green
         blackjack.setBackground(new Color(0, 125, 15));
     }
@@ -135,6 +145,8 @@ public class Blackjack extends Frame implements ActionListener {
         Graphics2D g2d = (Graphics2D) g;
         RenderingHints antiAliasing = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.addRenderingHints(antiAliasing);
+
+        g2d.drawImage(bg, 0, 0, null);
 
         if(wantToPlay) {
             // Draws the player's hand
@@ -210,6 +222,8 @@ public class Blackjack extends Frame implements ActionListener {
             if (draw) drawSplashText("Draw!", g2d);
         }
         else {
+            g2d.setColor(new Color(0, 0, 0, 50));
+            g2d.fillRect(0, 0, 1280, 720);
             drawSplashText("Welcome to Blackjack!", g2d);
         }
 
