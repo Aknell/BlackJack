@@ -13,17 +13,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class Blackjack extends Frame implements ActionListener {
+public class Blackjack extends JPanel implements ActionListener {
 
     boolean won = false;
     boolean lost = false;
@@ -34,11 +29,37 @@ public class Blackjack extends Frame implements ActionListener {
     static Dealer dealer;
     static Player player;
     static Deck deck;
+
+    static JFrame frame;
+    static JLayeredPane master;
+    JLabel title;
     JButton start, hit, stand, restart;
 
-    static BufferedImage bg;
+    static ImagePanel bg;
+
+    public static void main(String[] args) {
+        frame = new JFrame("Blackjack");
+        Blackjack blackjack = new Blackjack();
+
+        // Adds background
+        bg = new ImagePanel("src/images/gui/background.png");
+
+        master = new JLayeredPane();
+        master.setPreferredSize(new Dimension(1280, 720));
+        master.add(bg, 1);
+        master.add(blackjack, 2);
+        master.setVisible(true);
+
+        frame.setContentPane(master);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
 
     public Blackjack() {
+        setLayout(null);
+
         // Add Hit, Stand, Play again, Start buttons
         hit = new JButton("Hit");
         hit.setBounds(0, 33, 426, 33);
@@ -56,23 +77,22 @@ public class Blackjack extends Frame implements ActionListener {
         start.setBounds(540, 450, 200, 50);
         start.addActionListener(this);
 
-        // Closing functionality
-        addWindowListener((new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        }));
+        title = new JLabel("Welcome to Blackjack!", SwingConstants.CENTER);
 
+        add(title);
         add(start);
+
         add(hit);
         add(stand);
         add(restart);
 
         restart.setEnabled(false);
+
         hit.setVisible(false);
         stand.setVisible(false);
         restart.setVisible(false);
+
+        setVisible(true);
     }
 
     public void initGame() {
@@ -97,27 +117,6 @@ public class Blackjack extends Frame implements ActionListener {
         start.setVisible(false);
     }
 
-    public static void main(String[] args) {
-        // Initializes window
-        Blackjack blackjack = new Blackjack();
-        blackjack.setTitle("Blackjack");
-        blackjack.setSize(1280, 720);
-        blackjack.setLocationRelativeTo(null);
-        blackjack.setLayout(null);
-        blackjack.setResizable(false);
-        blackjack.setVisible(true);
-
-        // Adds background image to program
-        try {
-             bg = ImageIO.read(new File("src/main/resources/images/gui/background.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Makes background green
-        blackjack.setBackground(new Color(0, 125, 15));
-    }
-
     // Draws splash text for win/loss/draw
     public void drawSplashText(String text, Graphics2D g2d) {
         g2d.setFont(new Font("Arial", Font.BOLD, 50));
@@ -133,15 +132,12 @@ public class Blackjack extends Frame implements ActionListener {
     }
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         // Changes to Graphics2D class to enable anti-aliasing
         Graphics2D g2d = (Graphics2D) g;
         RenderingHints antiAliasing = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.addRenderingHints(antiAliasing);
-
-        // Draws background
-        g2d.drawImage(bg, 0, 0, null);
 
         if(wantToPlay) {
             // Draws the player's hand
@@ -222,7 +218,7 @@ public class Blackjack extends Frame implements ActionListener {
             drawSplashText("Welcome to Blackjack!", g2d);
         }
 
-        super.paint(g);
+        super.paintComponent(g);
     }
 
     public void won() {
