@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70436a3f-5edc-4157-8570-1b8f7753ca79" name="Changes" comment="a">
+    <list default="true" id="70436a3f-5edc-4157-8570-1b8f7753ca79" name="Changes" comment="q">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/cards/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/cards/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/dealing/DealersHand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/dealing/DealersHand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/dealing/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/dealing/Deck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/dealing/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/dealing/Hand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/blackjack/main/Blackjack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/blackjack/main/Blackjack.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,7 +17,6 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
-        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -59,13 +54,34 @@
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\anuwi\IdeaProjects\BlackJack\src\main\java" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Blackjack" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="blackjack.main.Blackjack" />
+      <module name="BlackJack" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="blackjack.main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Blackjack" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -90,28 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683818916917</updated>
     </task>
-    <task id="LOCAL-00003" summary="aaaaa">
-      <created>1683830927549</created>
+    <task id="LOCAL-00003" summary="it displays now">
+      <created>1683997539752</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1683830927549</updated>
+      <updated>1683997539752</updated>
     </task>
-    <task id="LOCAL-00004" summary="a">
-      <created>1683831034632</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1683831034632</updated>
-    </task>
-    <task id="LOCAL-00005" summary="a">
-      <created>1684336050855</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1684336050855</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -126,18 +128,12 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="aaaaa" />
     <MESSAGE value="a" />
-    <option name="LAST_COMMIT_MESSAGE" value="a" />
+    <MESSAGE value="it displays now" />
+    <option name="LAST_COMMIT_MESSAGE" value="it displays now" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="javax.imageio.IIOException" package="javax.imageio" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

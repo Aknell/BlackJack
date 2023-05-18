@@ -17,11 +17,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Blackjack extends Frame implements ActionListener {
 
@@ -39,6 +36,8 @@ public class Blackjack extends Frame implements ActionListener {
     static BufferedImage bg;
 
     public Blackjack() {
+        super("Blackjack");
+
         // Add Hit, Stand, Play again, Start buttons
         hit = new JButton("Hit");
         hit.setBounds(0, 33, 426, 33);
@@ -56,14 +55,6 @@ public class Blackjack extends Frame implements ActionListener {
         start.setBounds(540, 450, 200, 50);
         start.addActionListener(this);
 
-        // Closing functionality
-        addWindowListener((new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        }));
-
         add(start);
         add(hit);
         add(stand);
@@ -73,6 +64,22 @@ public class Blackjack extends Frame implements ActionListener {
         hit.setVisible(false);
         stand.setVisible(false);
         restart.setVisible(false);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+
+        setSize(1280, 720);
+        setLocationRelativeTo(null);
+        setLayout(null);
+        setResizable(false);
+        setVisible(true);
+
+        // Makes background green
+        setBackground(new Color(0, 125, 15));
     }
 
     public void initGame() {
@@ -99,23 +106,14 @@ public class Blackjack extends Frame implements ActionListener {
 
     public static void main(String[] args) {
         // Initializes window
-        Blackjack blackjack = new Blackjack();
-        blackjack.setTitle("Blackjack");
-        blackjack.setSize(1280, 720);
-        blackjack.setLocationRelativeTo(null);
-        blackjack.setLayout(null);
-        blackjack.setResizable(false);
-        blackjack.setVisible(true);
+        new Blackjack();
 
         // Adds background image to program
         try {
-             bg = ImageIO.read(new File("src/main/resources/images/gui/background.png"));
+            bg = ImageIO.read(new File("src/main/resources/images/gui/background.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // Makes background green
-        blackjack.setBackground(new Color(0, 125, 15));
     }
 
     // Draws splash text for win/loss/draw
@@ -128,7 +126,7 @@ public class Blackjack extends Frame implements ActionListener {
         int height = (int) g2d.getFontMetrics().getStringBounds(text, g2d).getHeight();
         int x = (1280/2) - (width/2);
         int y = (720/2) + (height/2);
-        
+
         g2d.drawString(text, x, y);
     }
 
@@ -285,7 +283,7 @@ public class Blackjack extends Frame implements ActionListener {
             dealer.getHand().reveal();
             repaint();
 
-            while(dealer.getHand().getTotalValue() < 17) {
+            while(dealer.getHand().getTotalValue() < 17 || dealer.getHand().getTotalValue() < player.getHand().getTotalValue()) {
                 dealer.getHand().hit(deck);
                 dealer.getHand().reveal();
                 repaint();
